@@ -23,7 +23,7 @@ class Survival {
 
     //스폰시간마다 적 생성(60당 약1초)
     if (spawnTime == 180) {
-      Enemy newEnemy = new Enemy();
+      Enemy newEnemy = new Enemy((int)random(0, 2));
       enemyList.add(newEnemy);
       spawnTime = 0;
     }
@@ -32,7 +32,8 @@ class Survival {
     //적 객체 그리기
     for (int i = 0; i < enemyList.size(); i++) {
       Enemy enemy = enemyList.get(i);
-      fill(255, 0, 0, 127);
+      //충돌범위
+      fill(255, 0, 0, 0);
       ellipse(enemy.positionX, enemy.positionY, enemy.radius, enemy.radius);
       enemy.update();
     }
@@ -74,6 +75,10 @@ class Survival {
           iteratorSpell.remove();
           iteratorEnemy.remove();
           break;
+        }
+        //스펠 화면 밖으로 나가면 삭제
+        if ((spell.positionX < -spell.radius) || (spell.positionX > width + spell.radius) || (spell.positionY < -spell.radius) || (spell.positionY > height + spell.radius)) {
+          iteratorSpell.remove();
         }
       }
     }

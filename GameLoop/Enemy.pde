@@ -1,6 +1,9 @@
 //Kim taeyu
-
-class Enemy{
+enum Monster {
+  IMP,
+    PUMPKIN
+}
+class Enemy {
   float positionX;
   float positionY;
   float velocityX;
@@ -8,53 +11,112 @@ class Enemy{
   float speed = 5;
   float centerX;
   float centerY;
-  float radius = 75;
-  
-  Enemy(){
+  float radius = 70;
+
+  //이미지 처리
+  PImage[] rImages;
+  Monster monster;
+  int imageNumber = 4;
+  int updateBeforeNextMove = 10;
+  int moveIdx = 1;
+
+  //몬스터 종류지정
+  Monster getMonster(int num) {
+    switch(num) {
+    case 0:
+      return Monster.IMP;
+    case 1:
+      return Monster.PUMPKIN;
+    default:
+      throw new IllegalArgumentException("Invalid value for Monster: " + num);
+    }
+  }
+
+  Enemy(int num) {
     centerX = width/2;
     centerY = height/2;
-    
+    //위치 랜덤 설정
     setRandomPosition();
+    //설정된 종류의 몬스터로 이미지 설정
+    monster = getMonster(num);
+    rImages = new PImage[imageNumber];
+    // 이미지 저장(우측방향)
+    switch(monster) {
+    case IMP:
+      radius = 40;
+      for (int i = 0; i < imageNumber; i++) {
+        rImages[i] = loadImage("imp_run_" + i + ".png");
+      }
+      break;
+    case PUMPKIN:
+      radius = 65;
+      for (int i = 0; i < imageNumber; i++) {
+        rImages[i] = loadImage("pumpkin_run_" + i + ".png");
+      }
+      break;
+    }
   }
-  
+
   //화면밖 랜덤위치 스폰
-  void spawnUpOrDown(){
+  void spawnUpOrDown() {
     int sign = ((int)(random(2)) * 2 - 1);
     positionX = random(width);
-    if(sign > 0)
-      positionY = sign * random(0 , 100) + height;
+    if (sign > 0)
+      positionY = sign * random(0, 100) + height;
     else
-      positionY = sign * random(0 , 100);
+      positionY = sign * random(0, 100);
   }
-  void spawnLeftOrRight(){
+  void spawnLeftOrRight() {
     int sign = ((int)(random(2)) * 2 - 1);
-    if(sign > 0)
-      positionX = sign * random(0 , 100) + width;
+    if (sign > 0)
+      positionX = sign * random(0, 100) + width;
     else
-      positionX = sign * random(0 , 100);
+      positionX = sign * random(0, 100);
     positionY = random(height);
   }
-  void setRandomPosition(){
+  void setRandomPosition() {
     int num = (int)random(0, 2);
-    if(num == 0)
+    if (num == 0)
       spawnUpOrDown();
     else
       spawnLeftOrRight();
   }
-  
-  void update(){
+
+  void update() {
+    //애니메이션 관련
+    updateBeforeNextMove--;
+    if (updateBeforeNextMove == 0) {
+      updateBeforeNextMove = 5;
+      if (moveIdx == 0)
+        moveIdx++;
+      else if (moveIdx == 1)
+        moveIdx++;
+      else if (moveIdx == 2)
+        moveIdx++;
+      else
+        moveIdx = 0;
+    }
+    if (velocityX > 0) {
+      image(rImages[moveIdx], positionX, positionY-3);
+    } else {
+      pushMatrix();
+      scale(-1, 1);
+      image(rImages[moveIdx], -positionX, positionY-3);
+      popMatrix();
+    }
+    //이동 관련
     float distanceToCenterX = centerX - positionX;
     float distanceToCenterY = centerY - positionY;
     float distanceToCenter = dist(centerX, centerY, positionX, positionY);
-    
+
     float directionX = distanceToCenterX/distanceToCenter;
     float directionY = distanceToCenterY/distanceToCenter;
-    
-    if(distanceToCenter > 0){
+
+    if (distanceToCenter > 0) {
       velocityX = directionX*speed;
       velocityY = directionY*speed;
     }
-    
+
     positionX += velocityX;
     positionY += velocityY;
   }
