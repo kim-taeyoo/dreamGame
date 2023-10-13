@@ -8,7 +8,7 @@ class Enemy{
   float speed = 5;
   float centerX;
   float centerY;
-  float radius;
+  float radius = 75;
   
   Enemy(){
     centerX = width/2;
@@ -54,11 +54,7 @@ class Enemy{
       velocityX = directionX*speed;
       velocityY = directionY*speed;
     }
-    //중앙(주인공)과 닿으면 사라짐
-    else if(distanceToCenter == 150){
-      //velocityX = 0;
-      //velocityY = 0;
-    }
+    
     positionX += velocityX;
     positionY += velocityY;
   }

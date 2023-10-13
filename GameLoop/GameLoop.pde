@@ -3,7 +3,8 @@
 Survival survival;
 
 void setup(){
-  size(1920, 1080);
+  size(1200, 900);
+  //fullScreen();
   survival = new Survival();
 }
 
