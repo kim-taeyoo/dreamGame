@@ -3,6 +3,8 @@ import java.util.Iterator;
 //객체
 Player player;
 MainCharacter mainCharacter;
+State state;
+
 ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 ArrayList<Spell> spellList = new ArrayList<Spell>();
 
@@ -14,6 +16,7 @@ class Survival {
     noStroke();
     player = new Player();
     mainCharacter = new MainCharacter();
+    state = new State(player, mainCharacter);
   }
 
   void update() {
@@ -82,6 +85,8 @@ class Survival {
         }
       }
     }
+    //상태창 update
+    state.update();
   }
 }
 
@@ -118,9 +123,11 @@ void keyReleased() {
 
 void mousePressed() {
   if (mouseButton == LEFT) {
-    if (!player.collision) {
+    if (!player.collision && player.shotTime && player.mp >= 20) {
       Spell newSpell = new Spell(player, mouseX, mouseY);
       spellList.add(newSpell);
+      player.shotTime = false;
+      player.mp -= 20;
     }
   }
 }

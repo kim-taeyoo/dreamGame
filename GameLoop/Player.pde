@@ -33,6 +33,12 @@ class Player {
   int stopTime = 180;
   int alphaVal = 255;
 
+  //스펠 관련
+  boolean shotTime = true;
+  int spellDelay = 60;
+  float mp = 100;
+  float plusMp = 0.1;
+
   Player() {
     rImages = new PImage[imageNumber];
     // 이미지 저장(우측방향)
@@ -113,10 +119,9 @@ class Player {
     case IS_COLLISION:
       //깜빡임 효과
       if (stopTime % 15 == 0) {
-        if(alphaVal == 255){
+        if (alphaVal == 255) {
           alphaVal = 127;
-        }
-        else if(alphaVal == 127){
+        } else if (alphaVal == 127) {
           alphaVal = 255;
         }
       }
@@ -139,14 +144,18 @@ class Player {
       if (wKeyPressed) {
         if (aKeyPressed || dKeyPressed) {
           positionY -= SPEED*sin(PI/4);
+          plusMp();
         } else {
           positionY -= SPEED;
+          plusMp();
         }
       } else if (sKeyPressed) {
         if (aKeyPressed || dKeyPressed) {
           positionY += SPEED*sin(PI/4);
+          plusMp();
         } else {
           positionY += SPEED;
+          plusMp();
         }
       }
       if (aKeyPressed) {
@@ -154,6 +163,7 @@ class Player {
           positionX -= SPEED*cos(PI/4);
         } else {
           positionX -= SPEED;
+          plusMp();
         }
         seeRight = false;
       } else if (dKeyPressed) {
@@ -161,6 +171,7 @@ class Player {
           positionX += SPEED*cos(PI/4);
         } else {
           positionX += SPEED;
+          plusMp();
         }
         seeRight = true;
       }
@@ -178,10 +189,26 @@ class Player {
         tint(255, alphaVal);
       }
     }
+
+    //스펠 딜레이
+    if (!shotTime) {
+      spellDelay--;
+      if (spellDelay == 0) {
+        shotTime = true;
+        spellDelay = 60;
+      }
+    }
   }
 
   //충돌시 애니메이션
   void collisionAni() {
     collision = true;
+  }
+
+  //mp회복
+  void plusMp() {
+    if (mp < 100) {
+      mp += plusMp;
+    }
   }
 }
