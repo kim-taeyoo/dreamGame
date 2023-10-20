@@ -1,4 +1,5 @@
 import ddf.minim.*;
+import ddf.minim.analysis.*;
 
 Minim minim;
 
@@ -6,6 +7,8 @@ ArrayList<AudioPlayer> musicList;
 AudioPlayer currentSong;
 AudioMetaData meta;
 int Selected_Music = 0;
+
+FFT fft;
 
 boolean musicPlaying = false;
 
@@ -43,6 +46,20 @@ void draw() {
   text(meta.title(), width/3, height/2);
 
   musicPlaying = currentSong.isPlaying();
+
+  fft.forward( currentSong.mix );
+
+  pushMatrix();
+  stroke(255, 0, 0);
+  for (int i = 0; i < 101; i++)
+  {
+    float spec = fft.getFreq(i*10);
+
+    float size = map(spec, 0, 255, 0, 1);
+ 
+    line( i, height, i, height - size*height );
+  }
+  popMatrix();
 
   if (musicPlaying) {
     text("Playing!", width/3, height/3);
@@ -98,6 +115,7 @@ void loadSongBeforeStart() {
 void getSongData() {
   currentSong = musicList.get(Selected_Music);
   meta = currentSong.getMetaData();
+  fft = new FFT(currentSong.bufferSize(), currentSong.sampleRate());
 }
 
 void nextSong() {
