@@ -8,22 +8,25 @@ AudioPlayer currentSong;
 AudioMetaData meta;
 int Selected_Music = 0;
 
-FFT fft;
+DrawEq drawEq;
 
-boolean musicPlaying = false;
-
-Playermachine myplayer;
+DrawBtn drawBtn;
 
 boolean loadingDone = false;
 
-void setup() {
-  size(800, 800);
 
-  myplayer = new Playermachine();
+PFont myFont;
+
+void setup() {
+  fullScreen();
+
+  drawBtn = new DrawBtn();
 
   minim = new Minim(this);
 
   musicList = new ArrayList<AudioPlayer>();
+  
+  myFont = createFont("dalmoori.ttf",50);
 
   thread ("loadSongBeforeStart");
 }
@@ -31,10 +34,9 @@ void setup() {
 void draw() {
   background(255);
 
-  myplayer.drawUI();
+  drawBtn.drawUI();
 
-  fill(0);
-  textSize(50);
+  textFont(myFont,50);
 
   if (!loadingDone) {
     text("Loading...", width/2, height/3);
@@ -42,31 +44,16 @@ void draw() {
   }
 
   getSongData();
+  
+  currentSong.play();
 
-  text(meta.title(), width/3, height/2);
+  drawEq.draw();
 
-  musicPlaying = currentSong.isPlaying();
+  fill(0);
 
-  fft.forward( currentSong.mix );
-
-  pushMatrix();
-  stroke(255, 0, 0);
-  for (int i = 0; i < 101; i++)
-  {
-    float spec = fft.getFreq(i*10);
-
-    float size = map(spec, 0, 255, 0, 1);
- 
-    line( i, height, i, height - size*height );
-  }
-  popMatrix();
-
-  if (musicPlaying) {
-    text("Playing!", width/3, height/3);
-  } else {
-    text("Paused", width/3, height/3);
-  }
+  text(meta.title()+"  By."+meta.author(), width/3, height/2);
 }
+
 
 void mousePressed() {
   if (!loadingDone) {
@@ -74,35 +61,28 @@ void mousePressed() {
   }
 
 
-  if (myplayer.HitStartPause()) {
-    if (musicPlaying) {
-      currentSong.pause();
-    } else {
-      currentSong.play();
-    }
+  if (drawBtn.HitSelect()) {
+    //when you select song, next wave start;
   }
 
 
-  if (myplayer.HitNext()) {
+  if (drawBtn.HitNext()) {
     currentSong.pause();
     currentSong.rewind();
     nextSong();
     getSongData();
-    if (musicPlaying) {
-      currentSong.play();
-    }
+    currentSong.play();
   }
 
-  if (myplayer.HitPre()) {
+  if (drawBtn.HitPre()) {
     currentSong.pause();
     currentSong.rewind();
     preSong();
     getSongData();
-    if (musicPlaying) {
-      currentSong.play();
-    }
+    currentSong.play();
   }
 }
+
 
 void loadSongBeforeStart() {
   musicList.add(minim.loadFile("song_0.mp3"));
@@ -115,7 +95,7 @@ void loadSongBeforeStart() {
 void getSongData() {
   currentSong = musicList.get(Selected_Music);
   meta = currentSong.getMetaData();
-  fft = new FFT(currentSong.bufferSize(), currentSong.sampleRate());
+  drawEq = new DrawEq(currentSong);
 }
 
 void nextSong() {

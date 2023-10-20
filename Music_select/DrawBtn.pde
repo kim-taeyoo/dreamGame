@@ -1,15 +1,15 @@
-class Playermachine {
+class DrawBtn {
 
-  Playermachine() {
+  DrawBtn() {
   }
 
   void drawUI() {
-    drawStartPauseBtn();
+    drawSelectBtn();
     drawNextBtn();
     drawPreBtn();
   }
 
-  void drawStartPauseBtn() {
+  void drawSelectBtn() {
     fill(150);
     stroke(0);
     rectMode(CENTER);
@@ -28,7 +28,7 @@ class Playermachine {
     triangle(width/3-45, height*2/3, width/3, height*2/3-25, width/3, height*2/3+25);
   }
 
-  boolean HitStartPause() {
+  boolean HitSelect() {
     if (mouseX >= (width/2)-25 && mouseX <= (width/2)+25 &&
       mouseY >= (height*2/3)-25 && mouseY <= (height*2/3)+25) {
       return true;
