@@ -12,7 +12,7 @@ class DrawEq {
     fft.forward(song.mix);
     
     pushMatrix();
-    fill(100, 100, 150);
+    fill(80, 80, 180);
     noStroke();
     for (int i = 0; i < 5; i++)
     {
@@ -20,8 +20,8 @@ class DrawEq {
 
       float size = map(spec, 0, 1024, 2, 50);
 
-      float startX = width/4 + i*11+1;
-      float startY = height/2;
+      float startX = width/4 +130 + i*11+1;
+      float startY = height*3/5 -25;
       float wide = 10;
       float hight = -size;
 

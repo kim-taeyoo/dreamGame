@@ -1,6 +1,8 @@
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 
+PImage img;
+
 Minim minim;
 
 ArrayList<AudioPlayer> musicList;
@@ -25,33 +27,43 @@ void setup() {
   minim = new Minim(this);
 
   musicList = new ArrayList<AudioPlayer>();
-  
-  myFont = createFont("dalmoori.ttf",50);
+
+  myFont = createFont("dalmoori.ttf", 50);
 
   thread ("loadSongBeforeStart");
 }
 
 void draw() {
-  background(255);
+  background(100);
 
-  drawBtn.drawUI();
-
-  textFont(myFont,50);
+  textFont(myFont, 25);
 
   if (!loadingDone) {
     text("Loading...", width/2, height/3);
     return;
   }
 
+
+  imageMode(CENTER);
+  image(img, width/2, height/2);
+
+  drawBtn.drawUI();
+
   getSongData();
-  
+
   currentSong.play();
 
   drawEq.draw();
 
-  fill(0);
+  fill(80, 80, 180);
+  stroke(80, 80, 180);
 
-  text(meta.title()+"  By."+meta.author(), width/3, height/2);
+  text(meta.title() + "  By."+meta.author(), width/3 + 100, height*3/5 -61);
+
+  rectMode(CORNERS);
+  rect(width/3 + 85, height*3/5 -54, width*2/3+10, height*3/5 -52);
+
+  text("Write Song effect here", width/3 +100, height*3/5 -24);
 }
 
 
@@ -63,6 +75,7 @@ void mousePressed() {
 
   if (drawBtn.HitSelect()) {
     //when you select song, next wave start;
+    text("Selected.", width/2, height/3);
   }
 
 
@@ -88,6 +101,9 @@ void loadSongBeforeStart() {
   musicList.add(minim.loadFile("song_0.mp3"));
   musicList.add(minim.loadFile("song_1.mp3"));
   musicList.add(minim.loadFile("song_2.mp3"));
+
+  img = loadImage("CdPlayer.png");
+
 
   loadingDone = true;
 }
