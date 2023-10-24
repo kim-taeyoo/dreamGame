@@ -11,6 +11,9 @@ class DrawBtn {
 
   void drawSelectBtn() {
     fill(164, 163, 182);
+    if (HitSelect()) {
+      fill(154, 153, 172);
+    }
     noStroke();
     rectMode(CENTER);
     rect(width/2, height*2/3 + 16, 182, 56);
@@ -18,6 +21,9 @@ class DrawBtn {
 
   void drawNextBtn() {
     fill(164, 163, 182);
+    if (HitNext()) {
+      fill(154, 153, 172);
+    }
     noStroke();
     rectMode(CENTER);
     rect(width*2/3 -89, height*2/3 + 16, 56, 56);
@@ -28,6 +34,9 @@ class DrawBtn {
 
   void drawPreBtn() {
     fill(164, 163, 182);
+    if (HitPre()) {
+      fill(154, 153, 172);
+    }
     noStroke();
     rectMode(CENTER);
     rect(width/3 +89, height*2/3 + 16, 56, 56);
