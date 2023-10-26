@@ -19,8 +19,8 @@ class Enemy {
   PImage[] rImages;
   Monster monster;
   int imageNumber = 4;
-  int updateBeforeNextMove = 10;
-  int moveIdx = 1;
+  int updateBeforeNextMove = 5;
+  int moveIdx = 0;
 
   //몬스터 종류지정
   Monster getMonster(int num) {
@@ -112,16 +112,12 @@ class Enemy {
     //애니메이션 관련
     updateBeforeNextMove--;
     if (updateBeforeNextMove == 0) {
-      updateBeforeNextMove = 5;
-      if (moveIdx == 0)
-        moveIdx++;
-      else if (moveIdx == 1)
-        moveIdx++;
-      else if (moveIdx == 2)
-        moveIdx++;
-      else
-        moveIdx = 0;
-    }
+        updateBeforeNextMove = 5;
+        if (moveIdx < imageNumber - 1)
+          moveIdx++;
+        else
+          moveIdx = 0;
+      }
     if (velocityX > 0) {
       image(rImages[moveIdx], positionX, positionY-3);
     } else {

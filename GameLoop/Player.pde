@@ -25,8 +25,8 @@ class Player {
   PImage[] rImages;
   int imageNumber = 4;
   MoveState moveState = MoveState.NOT_MOVING;
-  int updateBeforeNextMove = 10;
-  int moveIdx = 1;
+  int updateBeforeNextMove = 5;
+  int moveIdx = 0;
 
   //충돌처리
   boolean collision = false;
@@ -39,6 +39,10 @@ class Player {
   float mp = 100;
   float plusMp = 0.1;
 
+  //할퀴기 관련
+  boolean scratchTime = true;
+  int scratchDelay = 60;
+  
   Player() {
     rImages = new PImage[imageNumber];
     // 이미지 저장(우측방향)
@@ -100,12 +104,10 @@ class Player {
       updateBeforeNextMove--;
       if (updateBeforeNextMove == 0) {
         updateBeforeNextMove = 5;
-        if (moveIdx == 1)
-          moveIdx++;
-        else if (moveIdx == 2)
+        if (moveIdx < imageNumber - 1)
           moveIdx++;
         else
-          moveIdx = 1;
+          moveIdx = 0;
       }
       if (seeRight) {
         image(rImages[moveIdx], positionX, positionY-27);
@@ -197,6 +199,15 @@ class Player {
       if (spellDelay == 0) {
         shotTime = true;
         spellDelay = 60;
+      }
+    }
+
+    //할퀴기 딜레이
+    if (!scratchTime) {
+      scratchDelay--;
+      if (scratchDelay == 0) {
+        scratchTime = true;
+        scratchDelay = 60;
       }
     }
   }
