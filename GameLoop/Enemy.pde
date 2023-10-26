@@ -1,14 +1,16 @@
 //Kim taeyu
 enum Monster {
   IMP,
-    PUMPKIN
+    PUMPKIN,
+    DOC,
+    SKELETON
 }
 class Enemy {
   float positionX;
   float positionY;
   float velocityX;
   float velocityY;
-  float speed = 5;
+  float speed = 0;
   float centerX;
   float centerY;
   float radius = 70;
@@ -27,6 +29,10 @@ class Enemy {
       return Monster.IMP;
     case 1:
       return Monster.PUMPKIN;
+    case 2:
+      return Monster.DOC;
+    case 3:
+      return Monster.SKELETON;
     default:
       throw new IllegalArgumentException("Invalid value for Monster: " + num);
     }
@@ -47,12 +53,32 @@ class Enemy {
       for (int i = 0; i < imageNumber; i++) {
         rImages[i] = loadImage("imp_run_" + i + ".png");
       }
+      //임프 초기설정
+      speed = 4;
       break;
     case PUMPKIN:
       radius = 65;
       for (int i = 0; i < imageNumber; i++) {
         rImages[i] = loadImage("pumpkin_run_" + i + ".png");
       }
+      //펌킨 초기설정
+      speed = 3;
+      break;
+    case DOC:
+      radius = 50;
+      for (int i = 0; i < imageNumber; i++) {
+        rImages[i] = loadImage("doc_run_" + i + ".png");
+      }
+      //doc 초기설정
+      speed = 4;
+      break;
+    case SKELETON:
+      radius = 50;
+      for (int i = 0; i < imageNumber; i++) {
+        rImages[i] = loadImage("skeleton_run_" + i + ".png");
+      }
+      //해골 초기설정
+      speed = 4;
       break;
     }
   }

@@ -11,12 +11,18 @@ ArrayList<Spell> spellList = new ArrayList<Spell>();
 class Survival {
   //변수
   int spawnTime = 0;
+  //적 수
+  int enemyNum = 30;
+  int gameStage = 1;
+
+  //서바이벌 게임 실행 여부
+  boolean gameStart = true;
 
   Survival() {
     noStroke();
     player = new Player();
     mainCharacter = new MainCharacter();
-    state = new State(player, mainCharacter);
+    state = new State(player, mainCharacter, this);
   }
 
   void update() {
@@ -25,12 +31,14 @@ class Survival {
     ellipse(width/2, height/2, mainCharacter.raidus, mainCharacter.raidus);
 
     //스폰시간마다 적 생성(60당 약1초)
-    if (spawnTime == 180) {
-      Enemy newEnemy = new Enemy((int)random(0, 2));
-      enemyList.add(newEnemy);
-      spawnTime = 0;
+    if (enemyNum != 0) {
+      if (spawnTime == 180) {
+        Enemy newEnemy = new Enemy((int)random(0, 4));
+        enemyList.add(newEnemy);
+        spawnTime = 0;
+      }
+      spawnTime++;
     }
-    spawnTime++;
 
     //적 객체 그리기
     for (int i = 0; i < enemyList.size(); i++) {
@@ -68,6 +76,7 @@ class Survival {
       if (dist(width/2, height/2, enemy.positionX, enemy.positionY) < enemy.radius/2 + mainCharacter.raidus/2) {
         mainCharacter.nightmarePoint++;
         iteratorEnemy.remove();
+        enemyNum--;
       }
       //enemy와 spell간의 충돌 체크
       Iterator<Spell> iteratorSpell = spellList.iterator();
@@ -77,6 +86,7 @@ class Survival {
         if (dist(enemy.positionX, enemy.positionY, spell.positionX, spell.positionY) < enemy.radius/2 + spell.radius/2) {
           iteratorSpell.remove();
           iteratorEnemy.remove();
+          enemyNum--;
           break;
         }
         //스펠 화면 밖으로 나가면 삭제
@@ -87,6 +97,13 @@ class Survival {
     }
     //상태창 update
     state.update();
+
+    //스테이지 종료
+    if (enemyNum == 0) {
+      enemyNum = 30 + 5 * gameStage;
+      gameStage++;
+      //여기에 화면바뀌는 코드 넣으면 될듯
+    }
   }
 }
 

@@ -134,6 +134,7 @@ class Player {
         image(rImages[0], -positionX, positionY-27);
         popMatrix();
       }
+      tint(255, 255);
 
     default:
       break;
