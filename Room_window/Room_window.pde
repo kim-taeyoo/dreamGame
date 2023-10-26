@@ -18,11 +18,11 @@ void draw() {
 }
 
 void loadWeather() {
-  JSONObject json = loadJSONObject(url);
+  weatherJson = loadJSONObject(url);
 
-  println(json);
+  println(weatherJson);
 
-  drawWeather = new DrawWeather(json.getJSONArray("weather").getJSONObject(0).getInt("id"));
+  drawWeather = new DrawWeather(weatherJson.getJSONArray("weather").getJSONObject(0).getInt("id"));
   weatherId = drawWeather.getId();
 
   roomImg = loadImage("room.png");
