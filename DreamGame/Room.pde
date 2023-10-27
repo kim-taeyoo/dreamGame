@@ -1,5 +1,6 @@
 PImage roomImg;
-PImage bedImg;
+PImage WakeupImg;
+PImage SleepImg;
 
 String API_KEY = "6a35dd16db35356a80220fcd0c2a91f5";
 String url = "https://api.openweathermap.org/data/2.5/weather?q=Suwon&appid="+API_KEY;
@@ -52,7 +53,7 @@ class Room {
     //room
     imageMode(CENTER);
     image(roomImg, width/2, height/2);
-    image(bedImg, width/2-3, height/2-150);
+    image(WakeupImg, width/2-3, height/2-150);
     
     changeCursorWhenBtn();
   }

@@ -42,7 +42,7 @@ class MusicSelect {
 
     getSongData();
 
-    currentSong.play();
+    currentSong.loop(255);
 
     drawEq.drawEq();
 

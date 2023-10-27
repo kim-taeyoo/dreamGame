@@ -97,7 +97,8 @@ void loadData() {
   weatherId = drawWeather.getId();
 
   roomImg = loadImage("room.png");
-  bedImg = loadImage("noPlBed.png");
+  WakeupImg = loadImage("EyeOpen.png");
+  SleepImg = loadImage("EyeClosed.png");
   MusicImg = loadImage("CdPlayer.png");
 
   myFont = createFont("dalmoori.ttf", 50);
