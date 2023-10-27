@@ -150,21 +150,3 @@ void keyReleased() {
     player.dKeyPressed = false;
   }
 }
-
-void mousePressed() {
-  if (mouseButton == LEFT) {
-    //화염구
-    if (!player.collision && player.shotTime && player.mp >= 20) {
-      Spell newSpell = new Spell(player, mouseX, mouseY, 0);
-      spellList.add(newSpell);
-      player.shotTime = false;
-      player.mp -= 20;
-    }
-  } else if (mouseButton == RIGHT) {
-    //할퀴기
-    if (!player.collision && player.scratchTime) {
-      player.scratchTime = false;
-     attack.animationState = true;
-    }
-  }
-}

@@ -14,7 +14,7 @@ class Button {
     this.h = h;
   }
   
-  void Draw() {
+  void update() {
     fill(0, 0, 0);
     stroke(100);
     rect(x, y, w, h);
@@ -25,7 +25,7 @@ class Button {
     text(label, x + (w/2), y + (h/2));
   }
   
-  boolean MouseIsOver() {
+  boolean mouseIsOver() {
     if (mouseX > x && mouseX < (x+w) && mouseY > y && mouseY < (y+h))
       return true;
     return false;

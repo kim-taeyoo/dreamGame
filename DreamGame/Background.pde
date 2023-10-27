@@ -4,7 +4,7 @@ class Background {
   Button b1, b2, b3;
   boolean credit = false;
   int image = 0;
-  float credit_y = 250;
+  float credit_y = 1000;
 
   Background() {
     i1 = loadImage("background_1.png");
@@ -39,9 +39,9 @@ class Background {
       textSize(140);
       text("Dream Game", width/2-30, height/2);
 
-      b1.Draw();
-      b2.Draw();
-      b3.Draw();
+      b1.update();
+      b2.update();
+      b3.update();
     } else {
       if (credit_y < -300) {
         credit = false;
@@ -50,31 +50,25 @@ class Background {
       background(#000000);
       textAlign(CENTER, CENTER);
       fill(255, 255, 255);
-      textSize(45);
-      text("Credit", 250, 100 + credit_y);
+      textSize(100);
+      text("Credit", width/2, 100 + credit_y);
 
       textAlign(CENTER, CENTER);
       fill(255, 255, 255);
-      textSize(20);
-      text("Sonhyunwoo", 250, 150 + credit_y);
+      textSize(60);
+      text("Sonhyunwoo", width/2, 220 + credit_y);
 
       textAlign(CENTER, CENTER);
       fill(255, 255, 255);
-      textSize(20);
-      text("Kimtaeyoo", 250, 170 + credit_y);
+      textSize(60);
+      text("Kimtaeyoo", width/2, 320 + credit_y);
 
       textAlign(CENTER, CENTER);
       fill(255, 255, 255);
-      textSize(20);
-      text("Keunwoongjae", 250, 190 + credit_y);
+      textSize(60);
+      text("Keunwoongjae", width/2, 420 + credit_y);
 
-      credit_y--;
-    }
-  }
-
-  void mousePressed() {
-    if (b3.MouseIsOver()) {
-      credit = true;
+      credit_y-=3;
     }
   }
 }
