@@ -26,6 +26,7 @@ void setup() {
 }
 
 void draw() {
+  background(0);
 
   if (!loadingDone) {
     text("Loading...", width/2, height/3);

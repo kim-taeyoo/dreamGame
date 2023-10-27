@@ -33,6 +33,7 @@ class MusicSelect {
     background(100);
 
     textFont(myFont, 25);
+    textAlign(LEFT);
 
     imageMode(CENTER);
     image(MusicImg, width/2, height/2);
