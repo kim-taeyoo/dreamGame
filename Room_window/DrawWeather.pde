@@ -5,11 +5,11 @@ class DrawWeather {
   //2=snow
   //3=clear
   //4=cloud
-  
+
   int time = 0;
-  
-  Rain rain;
-  Snow snow;
+
+  Rain[] rain = new Rain[1];
+  Snow[] snow = new Snow[1];
 
   DrawWeather(int w) {
     if (300<=w&&w<600) {
@@ -39,16 +39,17 @@ class DrawWeather {
       break;
 
     case 1:  //rain
+      drawDrop(1, i);
       fill(130);
       noStroke();
       drawCloud(5);
-      drawDrop(i);
       break;
 
     case 2: //snow
-      fill(255, 127, 0);
+      drawDrop(2, i);
+      fill(180);
       noStroke();
-      ellipse(width/2 + 300, height/2 - 370, 20, 20);
+      drawCloud(5);
       break;
 
     case 3: //clear
@@ -87,14 +88,44 @@ class DrawWeather {
     }
   }
 
-  void drawDrop(int param) {
-    if(millis()-time > 200) {
-      //make rain or snow * param
-      
-      time = millis();
+  void drawDrop(int kind, int param) {
+    switch(kind) {
+    case 1:  //rain
+      if (millis()-time > 100) {
+        //make rain or snow * param
+        rain = new Rain[param];
+        for (int i=0; i < param; i++) {
+          rain[i] = new Rain();
+        }
+        time = millis();
+      }
+      if (rain[0] == null) {
+        return;
+      }
+      for (int i=0; i < param; i++) {
+
+        rain[i].drawRain();
+        rain[i].moveRain();
+      }
+
+      break;
+    case 2:  //snow
+      if (millis()-time > 2500) {
+        //make rain or snow * param
+        snow = new Snow[param];
+        for (int i=0; i < param; i++) {
+          snow[i] = new Snow();
+        }
+        time = millis();
+      }
+      if (snow[0] == null) {
+        return;
+      }
+      for (int i=0; i < param; i++) {
+        snow[i].drawSnow();
+        snow[i].moveSnow();
+      }
+      break;
     }
-    
-    //draw rain or snow
-    //drop animation
   }
 }
