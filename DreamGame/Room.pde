@@ -7,10 +7,8 @@ DrawWeather drawWeather;
 
 int weatherId = 0;
 
-boolean loadingDone = false;
-
 class Room {
-
+  boolean loadingDone = false;
   Room() {
   }
 

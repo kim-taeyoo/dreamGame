@@ -1,4 +1,5 @@
 class State {
+  Survival survival;
   Player player;
   MainCharacter mainCharacter;
   //플레이어 mp
@@ -14,6 +15,7 @@ class State {
   float nightmareBarWidth = width/4;
 
   State(Player player, MainCharacter mainCharacter, Survival survival) {
+    this.survival = survival;
     this.player = player;
     this.mainCharacter = mainCharacter;
 
