@@ -1,7 +1,10 @@
 GameLoop gameLoop;
 Background background;
-Music_select_window musicSelectWindow;
-Room_window roomWindow;
+MusicSelect musicSelect;
+Room room;
+
+boolean loadingDone = false;
+
 
 //페이지 관련 0:시작창 1:주인공 방 2:음악선택 3:서바이벌게임
 int page = 0;
@@ -10,19 +13,32 @@ void setup() {
   size(1920, 1080);
   //fullScreen();
 
+  minim = new Minim(this);
+
+  musicList = new ArrayList<AudioPlayer>();
+
   gameLoop = new GameLoop();
   background = new Background();
-  musicSelectWindow = new Music_select_window();
-  roomWindow = new Room_window();
+  musicSelect = new MusicSelect();
+  room = new Room();
+
+  thread ("loadData");
 }
 
 void draw() {
+
+  if (!loadingDone) {
+    text("Loading...", width/2, height/3);
+    return;
+  }
+
+
   if (page == 0) {
     background.update();
   } else if (page == 1) {
-    roomWindow.update();
+    room.update();
   } else if (page == 2) {
-    musicSelectWindow.update();
+    musicSelect.update();
   } else if (page == 3) {
     gameLoop.update();
   }
@@ -39,9 +55,11 @@ void mousePressed() {
   }
   //방 화면 일때
   else if (page == 1) {
+    room.pressRadioPlayer();
   }
   //음악 선택창 일때
   else if (page == 2) {
+    musicSelect.pressBtn();
   }
   //서바이벌 게임 일때
   else if (page == 3) {
@@ -61,4 +79,25 @@ void mousePressed() {
       }
     }
   }
+}
+
+void loadData() {
+  musicList.add(minim.loadFile("song_0.mp3"));
+  musicList.add(minim.loadFile("song_1.mp3"));
+  musicList.add(minim.loadFile("song_2.mp3"));
+
+  weatherJson = loadJSONObject(url);
+
+  println(weatherJson);
+
+  drawWeather = new DrawWeather(weatherJson.getJSONArray("weather").getJSONObject(0).getInt("id"));
+  weatherId = drawWeather.getId();
+
+  roomImg = loadImage("room.png");
+  bedImg = loadImage("noPlBed.png");
+  MusicImg = loadImage("CdPlayer.png");
+
+  myFont = createFont("dalmoori.ttf", 50);
+
+  loadingDone = true;
 }

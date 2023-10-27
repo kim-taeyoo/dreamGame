@@ -1,3 +1,9 @@
+//Keun Woongjae
+
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+
+
 Minim minim;
 
 ArrayList<AudioPlayer> musicList;
@@ -7,33 +13,26 @@ int Selected_Music = 0;
 
 PImage MusicImg;
 
-boolean loadingDone = false;
-
 PFont myFont;
 
-class musicSelect {
+class MusicSelect {
 
   DrawEq drawEq;
 
   DrawBtn drawBtn;
 
 
-  musicSelect() {
+  MusicSelect() {
 
     drawBtn = new DrawBtn();
 
-    myFont = createFont("dalmoori.ttf", 50);
   }
 
-  void drawPage() {
+  void update() {
+    
+    background(100);
 
     textFont(myFont, 25);
-
-    if (!loadingDone) {
-      text("Loading...", width/2, height/3);
-      return;
-    }
-
 
     imageMode(CENTER);
     image(MusicImg, width/2, height/2);
@@ -69,7 +68,9 @@ class musicSelect {
 
     if (drawBtn.HitSelect()) {
       //when you select song, next wave start;
-      text("Selected.", width/2, height/3);
+      println("selected");
+      cursor(ARROW);
+      page = 1;
     }
 
 

@@ -1,6 +1,9 @@
 PImage roomImg;
 PImage bedImg;
 
+String API_KEY = "6a35dd16db35356a80220fcd0c2a91f5";
+String url = "https://api.openweathermap.org/data/2.5/weather?q=Suwon&appid="+API_KEY;
+
 JSONObject weatherJson;
 
 DrawWeather drawWeather;
@@ -8,16 +11,12 @@ DrawWeather drawWeather;
 int weatherId = 0;
 
 class Room {
-  boolean loadingDone = false;
   Room() {
   }
 
-  void drawPage() {
+  void update() {
 
-    if (!loadingDone) {
-      text("Loading...", width/2, height/3);
-      return;
-    }
+    background(100);
 
     //weather
     rectMode(CENTER);
@@ -54,5 +53,12 @@ class Room {
     imageMode(CENTER);
     image(roomImg, width/2, height/2);
     image(bedImg, width/2-3, height/2-150);
+  }
+  
+  void pressRadioPlayer() {
+   if (mouseX >= (width*2/3)-140 && mouseX <= (width*2/3)-70 &&
+      mouseY >= (height/3)-40 && mouseY <= (height/3)+25) {
+      page = 2;
+    } 
   }
 }
