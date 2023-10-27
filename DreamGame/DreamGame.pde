@@ -12,8 +12,8 @@ boolean loadingDone = false;
 int page = 0;
 
 void setup() {
-  size(1920, 1080);
-  //fullScreen();
+  //size(1920, 1080);
+  fullScreen();
 
   minim = new Minim(this);
 
@@ -33,6 +33,12 @@ void draw() {
   if (!loadingDone) {
     text("Loading...", width/2, height/3);
     return;
+  }
+
+  if (currentSong != null) {
+    if (!currentSong.isPlaying()) {
+      currentSong.play();
+    }
   }
 
 

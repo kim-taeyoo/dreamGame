@@ -41,8 +41,8 @@ class MusicSelect {
     drawBtn.drawUI();
 
     getSongData();
-
-    currentSong.loop(255);
+    
+    currentSong.play();
 
     drawEq.drawEq();
 
