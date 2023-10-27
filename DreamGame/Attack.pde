@@ -1,6 +1,9 @@
 class Attack {
+  Player player;
   float positionX;
   float positionY;
+  int mousePosX;
+  int mousePosY;
   float velocityX;
   float velocityY;
   float directionX;
@@ -18,17 +21,10 @@ class Attack {
   boolean scratchTime = true;
   int scratchDelay = 60;
 
-  Attack(Player player, int mousePosX, int mousePosY) {
-    positionX = player.positionX;
-    positionY = player.positionY;
-
-    float distanceToMousePosX = mousePosX - positionX;
-    float distanceToMousePosY = mousePosY - positionY;
-    float distanceToMousePos = dist(mousePosX, mousePosY, positionX, positionY);
-
-    directionX = distanceToMousePosX/distanceToMousePos;
-    directionY = distanceToMousePosY/distanceToMousePos;
-    radius = 100;
+  Attack(Player player) {
+    this.player = player;
+    
+    radius = 110;
     imageNumber = 8;
     updateBeforeNextMove = 3;
     // 할퀴기 이미지 저장
@@ -39,6 +35,16 @@ class Attack {
   }
   void update() {
     if (animationState) {
+      positionX = player.positionX;
+      positionY = player.positionY;
+      
+    float distanceToMousePosX = mousePosX - positionX;
+    float distanceToMousePosY = mousePosY - positionY;
+    float distanceToMousePos = dist(mousePosX, mousePosY, positionX, positionY);
+
+    directionX = distanceToMousePosX/distanceToMousePos;
+    directionY = distanceToMousePosY/distanceToMousePos;
+    
       velocityX = directionX*5;
       velocityY = directionY*5;
 
@@ -55,11 +61,15 @@ class Attack {
         }
       }
 
+      //할퀴기 이미지
       pushMatrix();
-      translate(positionX+velocityX*7, positionY+velocityY*7);
+      translate(positionX, positionY);
       float a = atan2(directionY, directionX);
-      rotate(a - radians(15));
-      image(scratch[moveIdx], 0, 0);
+      rotate(a);
+      image(scratch[moveIdx], 30, 0);
+      //할퀴기 범위
+      fill(0, 255, 0, 120);
+      ellipse(30, 0, radius, radius);
       popMatrix();
     }
   }

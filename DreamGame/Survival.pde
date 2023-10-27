@@ -24,7 +24,7 @@ class Survival {
     player = new Player();
     mainCharacter = new MainCharacter();
     state = new State(player, mainCharacter, this);
-    attack = new Attack(player, mouseX, mouseY);
+    attack = new Attack(player);
   }
 
   void update() {
@@ -65,6 +65,8 @@ class Survival {
     player.update();
     
     //기본공격 그리기
+    //fill(0, 255, 0, 120);
+    //ellipse(attack.positionX, attack.positionY, attack.radius, attack.radius);
     attack.update();
 
     //충돌체크

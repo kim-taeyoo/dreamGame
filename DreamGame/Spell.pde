@@ -17,15 +17,15 @@ class Spell {
   int updateBeforeNextMove;
   int moveIdx = 0;
 
-  Spell(Player player, int mousePosX, int mousePosY, int attack) {
+  Spell(Player player, int attack) {
     attackType = attack;
 
-    positionX = player.positionX;
-    positionY = player.positionY;
+    this.positionX = player.positionX;
+    this.positionY = player.positionY;
 
-    float distanceToMousePosX = mousePosX - positionX;
-    float distanceToMousePosY = mousePosY - positionY;
-    float distanceToMousePos = dist(mousePosX, mousePosY, positionX, positionY);
+    float distanceToMousePosX = mouseX - positionX;
+    float distanceToMousePosY = mouseY - positionY;
+    float distanceToMousePos = dist(mouseX, mouseY, positionX, positionY);
 
     directionX = distanceToMousePosX/distanceToMousePos;
     directionY = distanceToMousePosY/distanceToMousePos;

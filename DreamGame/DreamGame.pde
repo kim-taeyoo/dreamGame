@@ -9,11 +9,11 @@ boolean loadingDone = false;
 
 
 //페이지 관련 0:시작창 1:주인공 방 2:음악선택 3:서바이벌게임
-int page = 0;
+int page = 3;
 
 void setup() {
-  //size(1920, 1080);
-  fullScreen();
+  size(1920, 1080);
+  //fullScreen();
 
   minim = new Minim(this);
 
@@ -75,7 +75,7 @@ void mousePressed() {
     if (mouseButton == LEFT) {
       //화염구
       if (!player.collision && player.shotTime && player.mp >= 20) {
-        Spell newSpell = new Spell(player, mouseX, mouseY, 0);
+        Spell newSpell = new Spell(player, 0);
         spellList.add(newSpell);
         player.shotTime = false;
         player.mp -= 20;
@@ -83,6 +83,8 @@ void mousePressed() {
     } else if (mouseButton == RIGHT) {
       //할퀴기
       if (!player.collision && player.scratchTime) {
+        attack.mousePosX = mouseX;
+        attack.mousePosY = mouseY;
         player.scratchTime = false;
         attack.animationState = true;
       }
