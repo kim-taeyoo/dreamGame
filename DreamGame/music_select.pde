@@ -69,7 +69,7 @@ class MusicSelect {
 
     if (drawBtn.HitSelect()) {
       //when you select song, next wave start;
-      println("selected");
+      println("Music selected");
       cursor(ARROW);
       page = 1;
     }

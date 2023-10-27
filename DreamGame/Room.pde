@@ -53,12 +53,31 @@ class Room {
     imageMode(CENTER);
     image(roomImg, width/2, height/2);
     image(bedImg, width/2-3, height/2-150);
+    
+    changeCursorWhenBtn();
   }
-  
+
   void pressRadioPlayer() {
-   if (mouseX >= (width*2/3)-140 && mouseX <= (width*2/3)-70 &&
-      mouseY >= (height/3)-40 && mouseY <= (height/3)+25) {
+    if (HitRadioPlayer()) {
+      cursor(ARROW);
       page = 2;
-    } 
+    }
+  }
+
+  boolean HitRadioPlayer() {
+    if (mouseX >= (width*2/3)-140 && mouseX <= (width*2/3)-70 &&
+      mouseY >= (height/3)-40 && mouseY <= (height/3)+25) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void changeCursorWhenBtn() {
+    if (HitRadioPlayer()) {
+      cursor(HAND);
+    }  else {
+      cursor(ARROW);
+    }
   }
 }
