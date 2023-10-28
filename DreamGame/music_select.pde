@@ -58,7 +58,7 @@ class MusicSelect {
     rectMode(CORNERS);
     rect(width/3 + 85, height*3/5 -54, width*2/3+10, height*3/5 -52);
 
-    text("Write Song effect here", width/3 +100, height*3/5 -24);
+    text(meta.comment(), width/3 +100, height*3/5 -24);
 
     changeCursorWhenBtn();
   }
