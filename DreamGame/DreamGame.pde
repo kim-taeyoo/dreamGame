@@ -5,6 +5,7 @@ Background background;
 MusicSelect musicSelect;
 Room room;
 
+Loading loadingAnim;
 boolean loadingDone = false;
 
 
@@ -24,6 +25,7 @@ void setup() {
   musicSelect = new MusicSelect();
   gameLoop = new GameLoop(musicSelect);
 
+  loadingAnim = new Loading();
   thread ("loadData");
 }
 
@@ -31,7 +33,7 @@ void draw() {
   background(0);
 
   if (!loadingDone) {
-    text("Loading...", width/2, height/3);
+    loadingAnim.drawLoading();
     return;
   }
 
