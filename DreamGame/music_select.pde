@@ -82,7 +82,10 @@ class MusicSelect {
       } else if (Selected_Music == 2) {
         reduceUseMp++;
       }
-      page = 3;
+      isMusicSelected = true;
+      readyTime = millis();
+      
+      page = 1;
     }
 
 

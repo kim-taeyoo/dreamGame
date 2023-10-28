@@ -17,7 +17,7 @@ class Survival {
   int maintainEnemy = setEnemyNum;
   int currentEnemy = 0;
   float enemySpeed = 0;
-  
+
   int gameStage = 1;
 
   //서바이벌 게임 실행 여부
@@ -138,6 +138,13 @@ class Survival {
         gameStage++;
         //게임종료
         page = 1;
+        
+        currentSong.pause();
+        currentSong.rewind();
+        currentSong = null;
+        
+        isMusicSelected = false;
+        readyToStart = false;
         gameStart = true;
       }
     }

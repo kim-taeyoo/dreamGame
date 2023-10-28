@@ -11,6 +11,12 @@ DrawWeather drawWeather;
 
 int weatherId = 0;
 
+boolean isMusicSelected = false;
+boolean readyToStart = false;
+float readyTime = 0;
+
+float alpha = 0;
+
 class Room {
   Room() {
   }
@@ -53,8 +59,29 @@ class Room {
     //room
     imageMode(CENTER);
     image(roomImg, width/2, height/2);
-    image(WakeupImg, width/2-3, height/2-150);
-    
+    if (readyToStart) {
+      image(SleepImg, width/2-3, height/2-150);
+    } else {
+      image(WakeupImg, width/2-3, height/2-150);
+    }
+
+    if (readyToStart) {
+      fill(0, alpha);
+      rect(width/2, height/2, width, height);
+      alpha+=2;
+
+      if (alpha == 350) {
+        page = 3;
+      }
+    }
+
+    if (isMusicSelected) {
+      if (millis() - readyTime > 1500) {
+        readyToStart = true;
+        isMusicSelected = false;
+      }
+    }
+
     changeCursorWhenBtn();
   }
 
@@ -77,7 +104,7 @@ class Room {
   void changeCursorWhenBtn() {
     if (HitRadioPlayer()) {
       cursor(HAND);
-    }  else {
+    } else {
       cursor(ARROW);
     }
   }
