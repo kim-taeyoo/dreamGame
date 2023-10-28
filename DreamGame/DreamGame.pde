@@ -81,12 +81,16 @@ void mousePressed() {
         player.mp -= 20;
       }
     } else if (mouseButton == RIGHT) {
-      //할퀴기
-      if (!player.collision && player.scratchTime) {
-        attack.mousePosX = mouseX;
-        attack.mousePosY = mouseY;
-        player.scratchTime = false;
-        attack.animationState = true;
+      //이미지 방향에 따라 공격 가능한 범위 설정
+      if ((player.seeRight && player.positionX < mouseX)||(!player.seeRight && player.positionX > mouseX)) {
+        //할퀴기
+        if (!player.collision && player.scratchTime) {
+          attack.mousePosX = mouseX;
+          attack.mousePosY = mouseY;
+          player.scratchTime = false;
+          attack.animationState = true;
+          attack. setAngle = false;
+        }
       }
     }
   }

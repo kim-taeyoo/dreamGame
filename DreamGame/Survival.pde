@@ -63,10 +63,8 @@ class Survival {
     fill(0, 255, 0, 0);
     ellipse(player.positionX, player.positionY, player.radius, player.radius);
     player.update();
-    
+
     //기본공격 그리기
-    //fill(0, 255, 0, 120);
-    //ellipse(attack.positionX, attack.positionY, attack.radius, attack.radius);
     attack.update();
 
     //충돌체크
@@ -85,6 +83,13 @@ class Survival {
         iteratorEnemy.remove();
         enemyNum--;
       }
+      //할퀴기 범위내 적이 있으면 삭제
+      if (attack.animationState) {
+        if (dist(attack.scratchX, attack.scratchY, enemy.positionX, enemy.positionY) < attack.radius/2 + enemy.radius/2) {
+          iteratorEnemy.remove();
+          enemyNum--;
+        }
+      }
       //enemy와 spell간의 충돌 체크
       Iterator<Spell> iteratorSpell = spellList.iterator();
       while (iteratorSpell.hasNext()) {
@@ -102,14 +107,6 @@ class Survival {
         }
       }
     }
-    //할퀴기 공격용 - 애니메이션 상태 false면 삭제
-    //Iterator<Spell> iteratorSpell = spellList.iterator();
-    //while (iteratorSpell.hasNext()) {
-    //  Spell spell = iteratorSpell.next();
-    //  if (spell.animationState == false) {
-    //    iteratorSpell.remove();
-    //  }
-    //}
     //상태창 update
     state.update();
 

@@ -41,7 +41,7 @@ class Player {
 
   //할퀴기 관련
   boolean scratchTime = true;
-  int scratchDelay = 60;
+  int scratchDelay = 120;
   
   Player() {
     rImages = new PImage[imageNumber];

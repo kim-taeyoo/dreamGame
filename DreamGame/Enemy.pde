@@ -54,7 +54,7 @@ class Enemy {
         rImages[i] = loadImage("imp_run_" + i + ".png");
       }
       //임프 초기설정
-      speed = 4;
+      speed = 1.5;
       break;
     case PUMPKIN:
       radius = 65;
@@ -62,7 +62,7 @@ class Enemy {
         rImages[i] = loadImage("pumpkin_run_" + i + ".png");
       }
       //펌킨 초기설정
-      speed = 3;
+      speed = 1.5;
       break;
     case DOC:
       radius = 50;
@@ -70,7 +70,7 @@ class Enemy {
         rImages[i] = loadImage("doc_run_" + i + ".png");
       }
       //doc 초기설정
-      speed = 4;
+      speed = 2;
       break;
     case SKELETON:
       radius = 50;
@@ -78,7 +78,7 @@ class Enemy {
         rImages[i] = loadImage("skeleton_run_" + i + ".png");
       }
       //해골 초기설정
-      speed = 4;
+      speed = 2;
       break;
     }
   }
