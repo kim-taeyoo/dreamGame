@@ -38,20 +38,26 @@ class Player {
   int spellDelay = 60;
   float mp = 100;
   float plusMp = 0.1;
+  float useMp = 20;
 
   //할퀴기 관련
   boolean scratchTime = true;
   int scratchDelay = 120;
   
-  Player() {
+  //음악 관련
+  MusicSelect musicSelect;
+  
+  Player(MusicSelect musicSelect) {
     rImages = new PImage[imageNumber];
     // 이미지 저장(우측방향)
     for (int i = 0; i < imageNumber; i++) {
       rImages[i] = loadImage("player_run_" + i + ".png");
     }
+    
+    this.musicSelect = musicSelect;
   }
 
-  void update() {
+  void update() {    
     //플레이어 이미지
     //플레이어 애니메이션 구현을 위해 움직임 상태 파악
     if (!collision) {

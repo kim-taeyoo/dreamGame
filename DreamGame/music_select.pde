@@ -17,6 +17,11 @@ PFont myFont;
 
 class MusicSelect {
 
+  //효과 관련 함수
+  int speedMusic = 0;
+  int cooltimeMusic = 0;
+  int reduceUseMp = 0;
+
   DrawEq drawEq;
 
   DrawBtn drawBtn;
@@ -25,11 +30,10 @@ class MusicSelect {
   MusicSelect() {
 
     drawBtn = new DrawBtn();
-
   }
 
   void update() {
-    
+
     background(100);
 
     textFont(myFont, 25);
@@ -41,7 +45,7 @@ class MusicSelect {
     drawBtn.drawUI();
 
     getSongData();
-    
+
     currentSong.play();
 
     drawEq.drawEq();
@@ -71,7 +75,14 @@ class MusicSelect {
       //when you select song, next wave start;
       println("Music selected");
       cursor(ARROW);
-      page = 1;
+      if (Selected_Music == 0) {
+        speedMusic++;
+      } else if (Selected_Music == 1) {
+        cooltimeMusic++;
+      } else if (Selected_Music == 2) {
+        reduceUseMp++;
+      }
+      page = 3;
     }
 
 
@@ -92,7 +103,7 @@ class MusicSelect {
     }
   }
 
-  void getSongData() {   
+  void getSongData() {
     currentSong = musicList.get(Selected_Music);
     meta = currentSong.getMetaData();
     drawEq = new DrawEq(currentSong);

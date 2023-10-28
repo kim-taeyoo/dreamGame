@@ -19,102 +19,116 @@ class Survival {
   //서바이벌 게임 실행 여부
   boolean gameStart = true;
 
-  Survival() {
+  Survival(MusicSelect musicSelect) {
     noStroke();
-    player = new Player();
+    player = new Player(musicSelect);
     mainCharacter = new MainCharacter();
     state = new State(player, mainCharacter, this);
     attack = new Attack(player);
   }
 
   void update() {
-    //주인공위치
-    fill(0, 0, 255, 127);
-    ellipse(width/2, height/2, mainCharacter.raidus, mainCharacter.raidus);
+    //게임으로 넘어오면 초기설정
+    if (gameStart) {
+      //음악 별 효과(속도증가)
+      player.SPEED_PIXEL_PER_SECOND = 200 + musicSelect.speedMusic * 200;
+      player.SPEED = player.SPEED_PIXEL_PER_SECOND / frameRate;
+      //쿨타임감소
+      player.spellDelay = 60 - musicSelect.cooltimeMusic*10;
+      player.scratchDelay = 120 - musicSelect.cooltimeMusic*10;
+      //mp소모량 감소
+      player.useMp = 20-musicSelect.reduceUseMp;
 
-    //스폰시간마다 적 생성(60당 약1초)
-    if (enemyNum != 0) {
-      if (spawnTime == 180) {
-        Enemy newEnemy = new Enemy((int)random(0, 4));
-        enemyList.add(newEnemy);
-        spawnTime = 0;
-      }
-      spawnTime++;
-    }
+      gameStart = false;
+    } else {
+      //주인공위치
+      fill(0, 0, 255, 127);
+      ellipse(width/2, height/2, mainCharacter.raidus, mainCharacter.raidus);
 
-    //적 객체 그리기
-    for (int i = 0; i < enemyList.size(); i++) {
-      Enemy enemy = enemyList.get(i);
-      //충돌범위
-      fill(255, 0, 0, 0);
-      ellipse(enemy.positionX, enemy.positionY, enemy.radius, enemy.radius);
-      enemy.update();
-    }
-    //스펠 그리기
-    for (int i = 0; i < spellList.size(); i++) {
-      Spell spell = spellList.get(i);
-      fill(127, 0, 127, 0);
-      ellipse(spell.positionX, spell.positionY, spell.radius, spell.radius);
-      spell.update();
-    }
-
-    //플레이어 그리기
-    //충돌처리용 원 투명하게
-    fill(0, 255, 0, 0);
-    ellipse(player.positionX, player.positionY, player.radius, player.radius);
-    player.update();
-
-    //기본공격 그리기
-    attack.update();
-
-    //충돌체크
-    //enemy와 player간의 충돌 체크
-    Iterator<Enemy> iteratorEnemy = enemyList.iterator();
-    while (iteratorEnemy.hasNext()) {
-      Enemy enemy = iteratorEnemy.next();
-      if (!player.collision) {
-        if (dist(enemy.positionX, enemy.positionY, player.positionX, player.positionY) < enemy.radius/2 + player.radius/2) {
-          player.collisionAni();
+      //스폰시간마다 적 생성(60당 약1초)
+      if (enemyNum != 0) {
+        if (spawnTime == 180) {
+          Enemy newEnemy = new Enemy((int)random(0, 4));
+          enemyList.add(newEnemy);
+          spawnTime = 0;
         }
+        spawnTime++;
       }
-      //주인공과 닿으면 적 삭제
-      if (dist(width/2, height/2, enemy.positionX, enemy.positionY) < enemy.radius/2 + mainCharacter.raidus/2) {
-        mainCharacter.nightmarePoint++;
-        iteratorEnemy.remove();
-        enemyNum--;
+
+      //적 객체 그리기
+      for (int i = 0; i < enemyList.size(); i++) {
+        Enemy enemy = enemyList.get(i);
+        //충돌범위
+        fill(255, 0, 0, 0);
+        ellipse(enemy.positionX, enemy.positionY, enemy.radius, enemy.radius);
+        enemy.update();
       }
-      //할퀴기 범위내 적이 있으면 삭제
-      if (attack.animationState) {
-        if (dist(attack.scratchX, attack.scratchY, enemy.positionX, enemy.positionY) < attack.radius/2 + enemy.radius/2) {
+      //스펠 그리기
+      for (int i = 0; i < spellList.size(); i++) {
+        Spell spell = spellList.get(i);
+        fill(127, 0, 127, 0);
+        ellipse(spell.positionX, spell.positionY, spell.radius, spell.radius);
+        spell.update();
+      }
+
+      //플레이어 그리기
+      //충돌처리용 원 투명하게
+      fill(0, 255, 0, 0);
+      ellipse(player.positionX, player.positionY, player.radius, player.radius);
+      player.update();
+
+      //기본공격 그리기
+      attack.update();
+
+      //충돌체크
+      //enemy와 player간의 충돌 체크
+      Iterator<Enemy> iteratorEnemy = enemyList.iterator();
+      while (iteratorEnemy.hasNext()) {
+        Enemy enemy = iteratorEnemy.next();
+        if (!player.collision) {
+          if (dist(enemy.positionX, enemy.positionY, player.positionX, player.positionY) < enemy.radius/2 + player.radius/2) {
+            player.collisionAni();
+          }
+        }
+        //주인공과 닿으면 적 삭제
+        if (dist(width/2, height/2, enemy.positionX, enemy.positionY) < enemy.radius/2 + mainCharacter.raidus/2) {
+          mainCharacter.nightmarePoint++;
           iteratorEnemy.remove();
           enemyNum--;
         }
-      }
-      //enemy와 spell간의 충돌 체크
-      Iterator<Spell> iteratorSpell = spellList.iterator();
-      while (iteratorSpell.hasNext()) {
-        Spell spell = iteratorSpell.next();
-        //spell 맞은 적 삭제
-        if (dist(enemy.positionX, enemy.positionY, spell.positionX, spell.positionY) < enemy.radius/2 + spell.radius/2) {
-          iteratorSpell.remove();
-          iteratorEnemy.remove();
-          enemyNum--;
-          break;
+        //할퀴기 범위내 적이 있으면 삭제
+        if (attack.animationState) {
+          if (dist(attack.scratchX, attack.scratchY, enemy.positionX, enemy.positionY) < attack.radius/2 + enemy.radius/2) {
+            iteratorEnemy.remove();
+            enemyNum--;
+          }
         }
-        //스펠 화면 밖으로 나가면 삭제
-        if ((spell.positionX < -spell.radius) || (spell.positionX > width + spell.radius) || (spell.positionY < -spell.radius) || (spell.positionY > height + spell.radius)) {
-          iteratorSpell.remove();
+        //enemy와 spell간의 충돌 체크
+        Iterator<Spell> iteratorSpell = spellList.iterator();
+        while (iteratorSpell.hasNext()) {
+          Spell spell = iteratorSpell.next();
+          //spell 맞은 적 삭제
+          if (dist(enemy.positionX, enemy.positionY, spell.positionX, spell.positionY) < enemy.radius/2 + spell.radius/2) {
+            iteratorSpell.remove();
+            iteratorEnemy.remove();
+            enemyNum--;
+            break;
+          }
+          //스펠 화면 밖으로 나가면 삭제
+          if ((spell.positionX < -spell.radius) || (spell.positionX > width + spell.radius) || (spell.positionY < -spell.radius) || (spell.positionY > height + spell.radius)) {
+            iteratorSpell.remove();
+          }
         }
       }
-    }
-    //상태창 update
-    state.update();
+      //상태창 update
+      state.update();
 
-    //스테이지 종료
-    if (enemyNum == 0) {
-      enemyNum = 30 + 5 * gameStage;
-      gameStage++;
-      //여기에 화면바뀌는 코드 넣으면 될듯
+      //스테이지 종료
+      if (enemyNum == 0) {
+        enemyNum = 30 + 5 * gameStage;
+        gameStage++;
+        //여기에 화면바뀌는 코드 넣으면 될듯
+      }
     }
   }
 }

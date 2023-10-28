@@ -9,7 +9,7 @@ boolean loadingDone = false;
 
 
 //페이지 관련 0:시작창 1:주인공 방 2:음악선택 3:서바이벌게임
-int page = 3;
+int page = 0;
 
 void setup() {
   size(1920, 1080);
@@ -19,10 +19,10 @@ void setup() {
 
   musicList = new ArrayList<AudioPlayer>();
 
-  gameLoop = new GameLoop();
   background = new Background();
-  musicSelect = new MusicSelect();
   room = new Room();
+  musicSelect = new MusicSelect();
+  gameLoop = new GameLoop(musicSelect);
 
   thread ("loadData");
 }
@@ -78,7 +78,7 @@ void mousePressed() {
         Spell newSpell = new Spell(player, 0);
         spellList.add(newSpell);
         player.shotTime = false;
-        player.mp -= 20;
+        player.mp -= player.useMp;
       }
     } else if (mouseButton == RIGHT) {
       //이미지 방향에 따라 공격 가능한 범위 설정
