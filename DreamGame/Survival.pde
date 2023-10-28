@@ -12,8 +12,12 @@ ArrayList<Spell> spellList = new ArrayList<Spell>();
 class Survival {
   //변수
   int spawnTime = 0;
-  //적 수
-  int enemyNum = 30;
+  //적 관련
+  int setEnemyNum = 20;
+  int maintainEnemy = setEnemyNum;
+  int currentEnemy = 0;
+  float enemySpeed = 0;
+  
   int gameStage = 1;
 
   //서바이벌 게임 실행 여부
@@ -31,7 +35,7 @@ class Survival {
     //게임으로 넘어오면 초기설정
     if (gameStart) {
       //음악 별 효과(속도증가)
-      player.SPEED_PIXEL_PER_SECOND = 200 + musicSelect.speedMusic * 200;
+      player.SPEED_PIXEL_PER_SECOND = 200 + musicSelect.speedMusic * 50;
       player.SPEED = player.SPEED_PIXEL_PER_SECOND / frameRate;
       //쿨타임감소
       player.spellDelay = 60 - musicSelect.cooltimeMusic*10;
@@ -46,10 +50,11 @@ class Survival {
       ellipse(width/2, height/2, mainCharacter.raidus, mainCharacter.raidus);
 
       //스폰시간마다 적 생성(60당 약1초)
-      if (enemyNum != 0) {
-        if (spawnTime == 180) {
-          Enemy newEnemy = new Enemy((int)random(0, 4));
+      if (currentEnemy != setEnemyNum) {
+        if (spawnTime == 120) {
+          Enemy newEnemy = new Enemy((int)random(0, 4), enemySpeed);
           enemyList.add(newEnemy);
+          currentEnemy++;
           spawnTime = 0;
         }
         spawnTime++;
@@ -94,13 +99,13 @@ class Survival {
         if (dist(width/2, height/2, enemy.positionX, enemy.positionY) < enemy.radius/2 + mainCharacter.raidus/2) {
           mainCharacter.nightmarePoint++;
           iteratorEnemy.remove();
-          enemyNum--;
+          maintainEnemy--;
         }
         //할퀴기 범위내 적이 있으면 삭제
         if (attack.animationState) {
           if (dist(attack.scratchX, attack.scratchY, enemy.positionX, enemy.positionY) < attack.radius/2 + enemy.radius/2) {
             iteratorEnemy.remove();
-            enemyNum--;
+            maintainEnemy--;
           }
         }
         //enemy와 spell간의 충돌 체크
@@ -111,7 +116,7 @@ class Survival {
           if (dist(enemy.positionX, enemy.positionY, spell.positionX, spell.positionY) < enemy.radius/2 + spell.radius/2) {
             iteratorSpell.remove();
             iteratorEnemy.remove();
-            enemyNum--;
+            maintainEnemy--;
             break;
           }
           //스펠 화면 밖으로 나가면 삭제
@@ -124,10 +129,16 @@ class Survival {
       state.update();
 
       //스테이지 종료
-      if (enemyNum == 0) {
-        enemyNum = 30 + 5 * gameStage;
+      if (maintainEnemy == 0) {
+        //다음스테이지 수정사항
+        setEnemyNum += 5 * gameStage;
+        maintainEnemy = setEnemyNum;
+        currentEnemy = 0;
+        enemySpeed += 0.3;
         gameStage++;
-        //여기에 화면바뀌는 코드 넣으면 될듯
+        //게임종료
+        page = 1;
+        gameStart = true;
       }
     }
   }

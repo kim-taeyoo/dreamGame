@@ -10,7 +10,7 @@ class Enemy {
   float positionY;
   float velocityX;
   float velocityY;
-  float speed = 0;
+  float speed;
   float centerX;
   float centerY;
   float radius = 70;
@@ -38,9 +38,10 @@ class Enemy {
     }
   }
 
-  Enemy(int num) {
+  Enemy(int num, float speed) {
     centerX = width/2;
     centerY = height/2;
+    this.speed = speed;
     //위치 랜덤 설정
     setRandomPosition();
     //설정된 종류의 몬스터로 이미지 설정
@@ -54,7 +55,7 @@ class Enemy {
         rImages[i] = loadImage("imp_run_" + i + ".png");
       }
       //임프 초기설정
-      speed = 1.5;
+      this.speed += 1.5;
       break;
     case PUMPKIN:
       radius = 65;
@@ -62,7 +63,7 @@ class Enemy {
         rImages[i] = loadImage("pumpkin_run_" + i + ".png");
       }
       //펌킨 초기설정
-      speed = 1.5;
+      this.speed += 1.5;
       break;
     case DOC:
       radius = 50;
@@ -70,7 +71,7 @@ class Enemy {
         rImages[i] = loadImage("doc_run_" + i + ".png");
       }
       //doc 초기설정
-      speed = 2;
+      this.speed += 2;
       break;
     case SKELETON:
       radius = 50;
@@ -78,7 +79,7 @@ class Enemy {
         rImages[i] = loadImage("skeleton_run_" + i + ".png");
       }
       //해골 초기설정
-      speed = 2;
+      this.speed += 2;
       break;
     }
   }

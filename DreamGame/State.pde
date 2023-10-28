@@ -45,7 +45,7 @@ class State {
     //남은 적 수
     fill(0); // 텍스트 색상을 검정으로 설정
     textSize(50); // 텍스트 크기 설정
-    text("Enemy: " + survival.enemyNum, width/2 + 50, 55);
+    text("Enemy: " + survival.maintainEnemy, width/2 + 50, 55);
     //스테이지 표시
     text("STAGE " + survival.gameStage, width/2 - 230, 55);
   }

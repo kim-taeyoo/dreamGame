@@ -17,7 +17,7 @@ PFont myFont;
 
 class MusicSelect {
 
-  //효과 관련 함수
+  //효과 관련 변수
   int speedMusic = 0;
   int cooltimeMusic = 0;
   int reduceUseMp = 0;
