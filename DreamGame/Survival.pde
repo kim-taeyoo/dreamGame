@@ -10,10 +10,12 @@ ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 ArrayList<Spell> spellList = new ArrayList<Spell>();
 
 class Survival {
+  //다른 페이지 클래스
+  Room room;
   //변수
   int spawnTime = 0;
   //적 관련
-  int setEnemyNum = 20;
+  int setEnemyNum = 2;
   int maintainEnemy = setEnemyNum;
   int currentEnemy = 0;
   float enemySpeed = 0;
@@ -23,8 +25,9 @@ class Survival {
   //서바이벌 게임 실행 여부
   boolean gameStart = true;
 
-  Survival(MusicSelect musicSelect) {
+  Survival(MusicSelect musicSelect, Room room) {
     noStroke();
+    this.room = room;
     player = new Player(musicSelect);
     mainCharacter = new MainCharacter();
     state = new State(player, mainCharacter, this);
@@ -34,6 +37,10 @@ class Survival {
   void update() {
     //게임으로 넘어오면 초기설정
     if (gameStart) {
+      //플레이어위치
+      player.positionX = width/2+70;
+      player.positionY = height/2;
+      player.seeRight = true;
       //음악 별 효과(속도증가)
       player.SPEED_PIXEL_PER_SECOND = 200 + musicSelect.speedMusic * 50;
       player.SPEED = player.SPEED_PIXEL_PER_SECOND / frameRate;
@@ -46,8 +53,10 @@ class Survival {
       gameStart = false;
     } else {
       //주인공위치
-      fill(0, 0, 255, 127);
+      fill(0, 0, 255, 0);
+      mainCharacter.update();
       ellipse(width/2, height/2, mainCharacter.raidus, mainCharacter.raidus);
+
 
       //스폰시간마다 적 생성(60당 약1초)
       if (currentEnemy != setEnemyNum) {
@@ -77,10 +86,17 @@ class Survival {
       }
 
       //플레이어 그리기
+      //주인공과 닿으면 반투명
+      if (dist(player.positionX, player.positionY, width/2, height/2) < player.radius/2+mainCharacter.raidus/2) {
+        tint(255, 80);
+      } else {
+        tint(255, 255);
+      }
       //충돌처리용 원 투명하게
       fill(0, 255, 0, 0);
       ellipse(player.positionX, player.positionY, player.radius, player.radius);
       player.update();
+      tint(255, 255);
 
       //기본공격 그리기
       attack.update();
@@ -137,12 +153,13 @@ class Survival {
         enemySpeed += 0.3;
         gameStage++;
         //게임종료
+        room.alpha = 0;
         page = 1;
-        
+
         currentSong.pause();
         currentSong.rewind();
         currentSong = null;
-        
+
         isMusicSelected = false;
         readyToStart = false;
         gameStart = true;

@@ -15,9 +15,8 @@ boolean isMusicSelected = false;
 boolean readyToStart = false;
 float readyTime = 0;
 
-float alpha = 0;
-
 class Room {
+  float alpha = 0;
   Room() {
   }
 

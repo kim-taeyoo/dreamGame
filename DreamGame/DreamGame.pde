@@ -23,7 +23,7 @@ void setup() {
   background = new Background();
   room = new Room();
   musicSelect = new MusicSelect();
-  gameLoop = new GameLoop(musicSelect);
+  gameLoop = new GameLoop(musicSelect, room);
 
   loadingAnim = new Loading();
   thread ("loadData");

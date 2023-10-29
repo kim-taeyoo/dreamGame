@@ -2,8 +2,8 @@
 class GameLoop {
   Survival survival;
   
-  GameLoop(MusicSelect musicSelect) {
-    survival = new Survival(musicSelect);
+  GameLoop(MusicSelect musicSelect, Room room) {
+    survival = new Survival(musicSelect, room);
   }
 
   void update() {

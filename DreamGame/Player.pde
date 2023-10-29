@@ -11,10 +11,10 @@ class Player {
 
   float SPEED_PIXEL_PER_SECOND = 200;
   float SPEED = SPEED_PIXEL_PER_SECOND / frameRate;
-  float positionX = width/2+30;
+  float positionX = width/2+70;
   float positionY = height/2;
   boolean seeRight = true;
-  float radius = 70;
+  float radius = 60;
 
   boolean wKeyPressed = false;
   boolean aKeyPressed = false;
