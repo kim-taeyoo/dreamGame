@@ -32,11 +32,13 @@ void setup() {
 void draw() {
   background(0);
 
+  //befor loading done
   if (!loadingDone) {
     loadingAnim.drawLoading();
     return;
   }
 
+  //repeat song.  loop() function make error
   if (currentSong != null) {
     if (!currentSong.isPlaying()) {
       currentSong.play();
@@ -108,11 +110,15 @@ void mousePressed() {
   }
 }
 
+//before game start, load
 void loadData() {
+
+  //music
   musicList.add(minim.loadFile("song_0.mp3"));
   musicList.add(minim.loadFile("song_1.mp3"));
   musicList.add(minim.loadFile("song_2.mp3"));
 
+  //weather api
   weatherJson = loadJSONObject(url);
 
   println(weatherJson);
@@ -120,11 +126,13 @@ void loadData() {
   drawWeather = new DrawWeather(weatherJson.getJSONArray("weather").getJSONObject(0).getInt("id"));
   weatherId = drawWeather.getId();
 
+  //img
   roomImg = loadImage("room.png");
   WakeupImg = loadImage("EyeOpen.png");
   SleepImg = loadImage("EyeClosed.png");
   MusicImg = loadImage("CdPlayer.png");
 
+  //font
   myFont = createFont("dalmoori.ttf", 50);
 
   loadingDone = true;

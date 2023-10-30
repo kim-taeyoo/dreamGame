@@ -12,6 +12,8 @@ class Loading {
     String str = "Loading...";
     text(str, (width/2)-(textWidth(str)*2/3), height/2);
 
+//make triangle spin
+
     pushMatrix();
     translate((width/2)+(textWidth(str)*4/7), height/2-10);
     rotate(loading_theta);
