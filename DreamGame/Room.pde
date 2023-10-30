@@ -89,6 +89,9 @@ class Room {
 
   //when player is pressed
   void pressRadioPlayer() {
+    if (readyToStart||isMusicSelected) {
+      return;
+    }
     if (HitRadioPlayer()) {
       cursor(ARROW);
       page = 2;
