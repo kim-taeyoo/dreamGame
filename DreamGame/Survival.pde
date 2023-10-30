@@ -5,6 +5,7 @@ Player player;
 MainCharacter mainCharacter;
 State state;
 Attack attack;
+StageClear stageClear;
 
 ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 ArrayList<Spell> spellList = new ArrayList<Spell>();
@@ -24,6 +25,12 @@ class Survival {
 
   //서바이벌 게임 실행 여부
   boolean gameStart = true;
+  boolean loadingTime= true;
+  int loadingSec = 180;
+
+  //스테이지 클리어요소
+  boolean isClear = false;
+  boolean goToRoom = false;
 
   Survival(MusicSelect musicSelect, Room room) {
     noStroke();
@@ -35,6 +42,10 @@ class Survival {
   }
 
   void update() {
+    ////게임 클리어시 화면 반투명
+    //if(isClear){
+    //  tint(255, 100);
+    //}
     //게임으로 넘어오면 초기설정
     if (gameStart) {
       //플레이어위치
@@ -50,7 +61,43 @@ class Survival {
       //mp소모량 감소
       player.useMp = 20-musicSelect.reduceUseMp;
 
-      gameStart = false;
+      //스테이지 클리어 객체 초기화
+      stageClear = new StageClear();
+
+      //로딩텍스트
+      if (loadingTime) {
+        background(0);
+        fill(255); // 텍스트 색상을 하양으로 설정
+        textSize(100); // 텍스트 크기 설정
+        text("Sleeping", width/2 - 190, height/2);
+        if (loadingSec < 150) {
+          text(".", width/2 + 220, height/2);
+        }
+        if (loadingSec < 100) {
+          text(".", width/2 + 260, height/2);
+        }
+        if (loadingSec < 50) {
+          text(".", width/2 + 300, height/2);
+        }
+
+        //효과 텍스트
+        textSize(50);
+        if (Selected_Music == 0) {
+          text("Speed has increased", width/2-230, height/2+150);
+        } else if (Selected_Music == 1) {
+          text("Attack cooltime decreased", width/2-310, height/2+150);
+        } else if (Selected_Music == 2) {
+          text("Consumption of mp has decreased", width/2-370, height/2+150);
+        }
+
+        loadingSec--;
+        if (loadingSec  == 0) {
+          loadingSec = 180;
+          loadingTime = false;
+        }
+      } else {
+        gameStart = false;
+      }
     } else {
       //주인공위치
       fill(0, 0, 255, 0);
@@ -146,23 +193,35 @@ class Survival {
 
       //스테이지 종료
       if (maintainEnemy == 0) {
-        //다음스테이지 수정사항
-        setEnemyNum += 5 * gameStage;
-        maintainEnemy = setEnemyNum;
-        currentEnemy = 0;
-        enemySpeed += 0.3;
-        gameStage++;
-        //게임종료
-        room.alpha = 0;
-        page = 1;
+        isClear = true;
+      }
+      //클리어시 폭죽
+      if (isClear) {
+        if (!goToRoom) {
+          stageClear.update();
+        } else {
+          //다음스테이지 수정사항
+          setEnemyNum += 5 * gameStage;
+          maintainEnemy = setEnemyNum;
+          currentEnemy = 0;
+          enemySpeed += 0.3;
+          gameStage++;
+          loadingTime = true;
+          isClear = false;
+          goToRoom = false;
+          spellList.clear();
+          //게임종료
+          room.alpha = 0;
+          page = 1;
 
-        currentSong.pause();
-        currentSong.rewind();
-        currentSong = null;
+          currentSong.pause();
+          currentSong.rewind();
+          currentSong = null;
 
-        isMusicSelected = false;
-        readyToStart = false;
-        gameStart = true;
+          isMusicSelected = false;
+          readyToStart = false;
+          gameStart = true;
+        }
       }
     }
   }

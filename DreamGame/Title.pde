@@ -1,16 +1,16 @@
 //sonhyunwoo
-class Background {
+class Title {
   PImage i1, i2, i3, i4;
   Button b1, b2, b3;
   boolean credit = false;
   int image = 0;
   float credit_y = 1000;
 
-  Background() {
-    i1 = loadImage("background_1.png");
-    i2 = loadImage("background_2.png");
-    i3 = loadImage("background_3.png");
-    i4 = loadImage("background_4.png");
+  Title() {
+    i1 = loadImage("title_1.png");
+    i2 = loadImage("title_2.png");
+    i3 = loadImage("title_3.png");
+    i4 = loadImage("title_4.png");
 
     b1 = new Button("Start", 150, height*5/6-100, width/6, height/8);
     b2 = new Button("Quit", width/2-150, height*5/6-100, width/6, height/8);

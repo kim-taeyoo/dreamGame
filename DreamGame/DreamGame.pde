@@ -95,6 +95,11 @@ void mousePressed() {
         }
       }
     }
+    if (gameLoop.survival.isClear) {
+      if (mouseButton == LEFT) {
+        gameLoop.survival.goToRoom = true;
+      }
+    }
   }
 }
 
