@@ -11,6 +11,7 @@ class DrawWeather {
   Rain[] rain = new Rain[1];
   Snow[] snow = new Snow[1];
 
+  //change api Id to my Id
   DrawWeather(int w) {
     if (300<=w&&w<600) {
       Id = 1; //rain
@@ -52,7 +53,7 @@ class DrawWeather {
       drawCloud(5);
       break;
 
-    case 3: //clear
+    case 3: //clear sky
       fill(255, 200, 120);
       noStroke();
       ellipse(width/2 + 300, height/2 - 350, 45, 45);
@@ -69,6 +70,7 @@ class DrawWeather {
     }
   }
 
+  //change data of weather
   int manipulateData(int i) {
 
     if (i>100) {
@@ -80,6 +82,7 @@ class DrawWeather {
     return i;
   }
 
+  //draw cloud
   void drawCloud(int param) {
     for (int i = 0; i < param; i++) {
       ellipse(width/2 + 140+i*48, height/2 - 355, 25, 25);
@@ -88,10 +91,11 @@ class DrawWeather {
     }
   }
 
+  //draw rain or snow drop
   void drawDrop(int kind, int param) {
     switch(kind) {
     case 1:  //rain
-      if (millis()-time > 100) {
+      if (millis()-time > 100) {  //every 0.1 sec
         //make rain or snow * param
         rain = new Rain[param];
         for (int i=0; i < param; i++) {
@@ -110,7 +114,7 @@ class DrawWeather {
 
       break;
     case 2:  //snow
-      if (millis()-time > 2500) {
+      if (millis()-time > 2500) {  //every 2.5 sec
         //make rain or snow * param
         snow = new Snow[param];
         for (int i=0; i < param; i++) {

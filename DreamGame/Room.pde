@@ -11,12 +11,13 @@ DrawWeather drawWeather;
 
 int weatherId = 0;
 
-boolean isMusicSelected = false;
-boolean readyToStart = false;
+boolean isMusicSelected = false;  //start count down when music selected
+boolean readyToStart = false;  //start fade out when count down over
 float readyTime = 0;
 
 class Room {
-  float alpha = 0;
+  float alpha = 0;  //for fade out when sleep
+
   Room() {
   }
 
@@ -42,7 +43,7 @@ class Room {
       drawWeather.drawWindow(weatherJson.getJSONObject("snow").getInt("1h"));
       break;
 
-    case 3: //clear
+    case 3: //clear sky
       drawWeather.drawWindow(0);
       break;
 
@@ -64,6 +65,7 @@ class Room {
       image(WakeupImg, width/2-3, height/2-150);
     }
 
+    // start fade out
     if (readyToStart) {
       fill(0, alpha);
       rect(width/2, height/2, width, height);
@@ -74,6 +76,7 @@ class Room {
       }
     }
 
+    //start count down
     if (isMusicSelected) {
       if (millis() - readyTime > 1500) {
         readyToStart = true;
@@ -84,6 +87,7 @@ class Room {
     changeCursorWhenBtn();
   }
 
+  //when player is pressed
   void pressRadioPlayer() {
     if (HitRadioPlayer()) {
       cursor(ARROW);
@@ -91,6 +95,7 @@ class Room {
     }
   }
 
+  //check player is pressed
   boolean HitRadioPlayer() {
     if (mouseX >= (width*2/3)-140 && mouseX <= (width*2/3)-70 &&
       mouseY >= (height/3)-40 && mouseY <= (height/3)+25) {
