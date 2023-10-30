@@ -1,7 +1,7 @@
 //Kimtaeyu
 class MainCharacter{
   PImage mainCharacterImg;
-  float nightmarePoint = 8;
+  float nightmarePoint = 0;
   float raidus = 80;
   
   MainCharacter(){
