@@ -1,3 +1,4 @@
+//Kim Taeyu
 class StageClear {
   ArrayList<Firework> fireworks = new ArrayList<Firework>();
   int a = 0;

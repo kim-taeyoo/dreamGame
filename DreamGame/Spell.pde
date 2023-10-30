@@ -1,3 +1,4 @@
+//Kim Taeyu
 class Spell {
   float positionX;
   float positionY;

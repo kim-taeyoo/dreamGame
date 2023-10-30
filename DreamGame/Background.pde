@@ -1,3 +1,4 @@
+//Kim Taeyu
 class Background {
   //float noiseScale = 0.02;
   //// 그리드의 열과 행 수
