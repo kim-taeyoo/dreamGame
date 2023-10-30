@@ -56,6 +56,7 @@ class MusicSelect {
     text(meta.title() + "  By."+meta.author(), width/3 + 100, height*3/5 -61);
 
     rectMode(CORNERS);
+    noStroke();
     rect(width/3 + 85, height*3/5 -54, width*2/3+10, height*3/5 -52);
 
     text(meta.comment(), width/3 +100, height*3/5 -24);
