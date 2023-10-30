@@ -6,6 +6,7 @@ MainCharacter mainCharacter;
 State state;
 Attack attack;
 StageClear stageClear;
+Background background;
 
 ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 ArrayList<Spell> spellList = new ArrayList<Spell>();
@@ -16,7 +17,7 @@ class Survival {
   //변수
   int spawnTime = 0;
   //적 관련
-  int setEnemyNum = 2;
+  int setEnemyNum = 10;
   int maintainEnemy = setEnemyNum;
   int currentEnemy = 0;
   float enemySpeed = 0;
@@ -28,9 +29,14 @@ class Survival {
   boolean loadingTime= true;
   int loadingSec = 180;
 
-  //스테이지 클리어요소
+  //스테이지 클리어
   boolean isClear = false;
   boolean goToRoom = false;
+
+  //게임오버
+  boolean gameOver = false;
+  boolean restartGame = false;
+  int a = 0;
 
   Survival(MusicSelect musicSelect, Room room) {
     noStroke();
@@ -39,6 +45,7 @@ class Survival {
     mainCharacter = new MainCharacter();
     state = new State(player, mainCharacter, this);
     attack = new Attack(player);
+    background = new Background();
   }
 
   void update() {
@@ -99,6 +106,8 @@ class Survival {
         gameStart = false;
       }
     } else {
+      //배경출력
+      background.update();
       //주인공위치
       fill(0, 0, 255, 0);
       mainCharacter.update();
@@ -190,9 +199,60 @@ class Survival {
       }
       //상태창 update
       state.update();
+ 
+      //게임오버 시 게임초기화
+      if (mainCharacter.nightmarePoint >= 10) {
+        gameOver = true;
+      }
+      if (gameOver) {
+        //스테이지 클리어 알리기
+        fill(0, a);
+        rect(0, 0, width, height);
+        a+=2;
+        fill(255, a);
+        textSize(100); // 텍스트 크기 설정
+        text("Game Over...", width/2 - 270, height/2);
+        textSize(50); // 텍스트 크기 설정
+        text("Click on the screen to back to the room", width/2 - 500, height/2+200);
+
+        if (restartGame) {
+          gameOver = false;
+          restartGame = false;
+          //다음스테이지 수정사항
+          setEnemyNum = 10 + 5 * (gameStage-1);
+          maintainEnemy = setEnemyNum;
+          currentEnemy = 0;
+          loadingTime = true;
+          isClear = false;
+          goToRoom = false;
+          spellList.clear();
+          enemyList.clear();
+          player.mp = 100;
+          mainCharacter.nightmarePoint = 0;
+          //게임종료
+          room.alpha = 0;
+          page = 1;
+
+          if (Selected_Music == 0) {
+            musicSelect.speedMusic--;
+          } else if (Selected_Music == 1) {
+            musicSelect.cooltimeMusic--;
+          } else if (Selected_Music == 2) {
+            musicSelect.reduceUseMp--;
+          }
+
+          currentSong.pause();
+          currentSong.rewind();
+          currentSong = null;
+
+          isMusicSelected = false;
+          readyToStart = false;
+          gameStart = true;
+        }
+      }
 
       //스테이지 종료
-      if (maintainEnemy == 0) {
+      if (!gameOver && maintainEnemy == 0) {
         isClear = true;
       }
       //클리어시 폭죽
@@ -210,6 +270,7 @@ class Survival {
           isClear = false;
           goToRoom = false;
           spellList.clear();
+          player.mp = 100;
           //게임종료
           room.alpha = 0;
           page = 1;

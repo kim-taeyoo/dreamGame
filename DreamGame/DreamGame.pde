@@ -1,7 +1,7 @@
 //Main
 
 GameLoop gameLoop;
-Background background;
+Title title;
 MusicSelect musicSelect;
 Room room;
 
@@ -20,7 +20,7 @@ void setup() {
 
   musicList = new ArrayList<AudioPlayer>();
 
-  background = new Background();
+  title = new Title();
   room = new Room();
   musicSelect = new MusicSelect();
   gameLoop = new GameLoop(musicSelect, room);
@@ -45,7 +45,7 @@ void draw() {
 
 
   if (page == 0) {
-    background.update();
+    title.update();
   } else if (page == 1) {
     room.update();
   } else if (page == 2) {
@@ -58,9 +58,9 @@ void draw() {
 void mousePressed() {
   //시작화면일때
   if (page == 0) {
-    if (background.b3.mouseIsOver()) {
-      background.credit = true;
-    } else if (background.b1.mouseIsOver()) {
+    if (title.b3.mouseIsOver()) {
+      title.credit = true;
+    } else if (title.b1.mouseIsOver()) {
       page = 1;
     }
   }
@@ -98,6 +98,11 @@ void mousePressed() {
     if (gameLoop.survival.isClear) {
       if (mouseButton == LEFT) {
         gameLoop.survival.goToRoom = true;
+      }
+    }
+    if (gameLoop.survival.gameOver) {
+      if (mouseButton == LEFT) {
+        gameLoop.survival.restartGame = true;
       }
     }
   }

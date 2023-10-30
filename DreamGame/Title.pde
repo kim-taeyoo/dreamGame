@@ -5,6 +5,7 @@ class Title {
   boolean credit = false;
   int image = 0;
   float credit_y = 1000;
+  PFont myFont;
 
   Title() {
     i1 = loadImage("title_1.png");
@@ -15,9 +16,13 @@ class Title {
     b1 = new Button("Start", 150, height*5/6-100, width/6, height/8);
     b2 = new Button("Quit", width/2-150, height*5/6-100, width/6, height/8);
     b3 = new Button("Credit", width*5/6-150, height*5/6-100 , width/6, height/8);
+    myFont = createFont("Arial", 24);
   }
 
   void update() {
+    imageMode(CORNER);
+    textFont(myFont);
+    noStroke();
     if (!credit) {
       background(#ffffff);
 
