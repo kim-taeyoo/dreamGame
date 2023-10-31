@@ -16,6 +16,7 @@ class Survival {
   Room room;
   //변수
   int spawnTime = 0;
+  int minusSpawnTime = 0;
   //적 관련
   int setEnemyNum = 10;
   int maintainEnemy = setEnemyNum;
@@ -116,7 +117,7 @@ class Survival {
 
       //스폰시간마다 적 생성(60당 약1초)
       if (currentEnemy != setEnemyNum) {
-        if (spawnTime == 120) {
+        if (spawnTime == 120-minusSpawnTime) {
           Enemy newEnemy = new Enemy((int)random(0, 4), enemySpeed);
           enemyList.add(newEnemy);
           currentEnemy++;
@@ -199,7 +200,7 @@ class Survival {
       }
       //상태창 update
       state.update();
- 
+
       //게임오버 시 게임초기화
       if (mainCharacter.nightmarePoint >= 10) {
         gameOver = true;
@@ -264,7 +265,10 @@ class Survival {
           setEnemyNum += 5 * gameStage;
           maintainEnemy = setEnemyNum;
           currentEnemy = 0;
-          enemySpeed += 0.3;
+          enemySpeed += 0.1;
+          if (minusSpawnTime >15) {
+            minusSpawnTime += 3;
+          }
           gameStage++;
           loadingTime = true;
           isClear = false;
